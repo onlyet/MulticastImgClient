@@ -36,9 +36,15 @@
     <ClCompile Include="ImgClient.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MCClient.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="ImgClient.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="MCClient.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
