@@ -13,15 +13,17 @@ class ImgClient : public QWidget
 
 public:
     ImgClient(QWidget *parent = Q_NULLPTR);
+    ~ImgClient();
 
 signals:
     void bind(const QString& groupAddress, const unsigned short& port);
 
-    private slots:
+public slots:
     void start();
     void imgReceived(const QPixmap& pixmap);
 
 private:
-    Ui::ImgClientClass  ui;
+    Ui::ImgClientUi     ui;
     MCClient*           m_imgClient;
+    QThread*            m_imgThread;
 };

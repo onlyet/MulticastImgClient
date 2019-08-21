@@ -5,6 +5,9 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     ImgClient w;
-    w.show();
+    //w.show();
+    w.showMaximized();
+    w.start();
+
     return a.exec();
 }

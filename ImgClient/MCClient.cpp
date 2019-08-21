@@ -7,6 +7,8 @@
 #define MC_MAX_BUF_LEN 5*1024*1024
 
 MCClient::MCClient(QObject* parent)
+    : m_imgLen(0)
+    , m_receivedLen(0)
 {
     m_recvBuf = new char[MC_RECV_BUF_LEN];
     m_imgBuf = new char[MC_MAX_BUF_LEN];
@@ -15,13 +17,13 @@ MCClient::MCClient(QObject* parent)
 
 MCClient::~MCClient()
 {
-    delete m_recvBuf;
-    delete m_imgBuf;
+    delete[] m_recvBuf;
+    delete[] m_imgBuf;
 }
 
 void MCClient::bind(const QString& groupAddress, const unsigned short& port)
 {
-    m_socket = new QUdpSocket;
+    m_socket = new QUdpSocket(this);
     if (!m_socket->bind(QHostAddress::AnyIPv4, port))
     {
         emit error("udp socket bind error");
@@ -56,13 +58,14 @@ void MCClient::recvDatagram()
 
     if (ba.contains("newImage:"))
     {
-        int imgLen = atoi(m_recvBuf + ba.indexOf("newImage:") + 9);
-        qDebug() << imgLen;
+        m_imgLen = atoi(m_recvBuf + ba.indexOf("newImage:") + 9);
+        qDebug() << m_imgLen;
         m_receivedLen = 0;
         return;
     }
 
-    memcpy_s(m_imgBuf + m_receivedLen, len, m_recvBuf, len);
+    //memcpy_s(m_imgBuf + m_receivedLen, len, m_recvBuf, len);
+    memcpy(m_imgBuf + m_receivedLen, m_recvBuf, len);
     m_receivedLen += len;
     if (m_receivedLen >= m_imgLen)
     {
@@ -70,7 +73,6 @@ void MCClient::recvDatagram()
         pixmap.loadFromData(reinterpret_cast<const uchar *>(m_imgBuf), m_imgLen);
         emit imgReceived(pixmap);
     }
-
 }
 
 void MCClient::sendDatagram(const QByteArray& data)

@@ -13,35 +13,49 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
 
-class Ui_ImgClientClass
+class Ui_ImgClientUi
 {
 public:
+    QHBoxLayout *horizontalLayout;
+    QLabel *label;
 
-    void setupUi(QWidget *ImgClientClass)
+    void setupUi(QWidget *ImgClientUi)
     {
-        if (ImgClientClass->objectName().isEmpty())
-            ImgClientClass->setObjectName(QStringLiteral("ImgClientClass"));
-        ImgClientClass->resize(600, 400);
+        if (ImgClientUi->objectName().isEmpty())
+            ImgClientUi->setObjectName(QStringLiteral("ImgClientUi"));
+        ImgClientUi->resize(600, 400);
+        horizontalLayout = new QHBoxLayout(ImgClientUi);
+        horizontalLayout->setSpacing(6);
+        horizontalLayout->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        label = new QLabel(ImgClientUi);
+        label->setObjectName(QStringLiteral("label"));
 
-        retranslateUi(ImgClientClass);
+        horizontalLayout->addWidget(label);
 
-        QMetaObject::connectSlotsByName(ImgClientClass);
+
+        retranslateUi(ImgClientUi);
+
+        QMetaObject::connectSlotsByName(ImgClientUi);
     } // setupUi
 
-    void retranslateUi(QWidget *ImgClientClass)
+    void retranslateUi(QWidget *ImgClientUi)
     {
-        ImgClientClass->setWindowTitle(QApplication::translate("ImgClientClass", "ImgClient", Q_NULLPTR));
+        ImgClientUi->setWindowTitle(QApplication::translate("ImgClientUi", "ImgClient", Q_NULLPTR));
+        label->setText(QApplication::translate("ImgClientUi", "TextLabel", Q_NULLPTR));
     } // retranslateUi
 
 };
 
 namespace Ui {
-    class ImgClientClass: public Ui_ImgClientClass {};
+    class ImgClientUi: public Ui_ImgClientUi {};
 } // namespace Ui
 
 QT_END_NAMESPACE
